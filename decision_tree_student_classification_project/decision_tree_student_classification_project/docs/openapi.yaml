@@ -1,0 +1,94 @@
+openapi: 3.0.3
+info:
+  title: Decision Tree Student Classification API
+  version: 1.0.0
+  description: REST API untuk klasifikasi peserta didik berdasarkan model C4.5 dan Random Forest.
+servers:
+  - url: http://localhost:8000/api
+paths:
+  /auth/login:
+    post:
+      summary: Login pengguna
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: {type: string}
+                password: {type: string}
+      responses:
+        '200': {description: Login berhasil}
+  /datasets:
+    get:
+      summary: Daftar dataset
+      responses:
+        '200': {description: Berhasil}
+    post:
+      summary: Upload dataset CSV
+      responses:
+        '201': {description: Dataset dibuat}
+  /models/train:
+    post:
+      summary: Training model C4.5 atau Random Forest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [dataset_id, algorithm]
+              properties:
+                dataset_id: {type: integer}
+                algorithm:
+                  type: string
+                  enum: [C4.5, Random Forest]
+                validation:
+                  type: string
+                  default: random_10_fold
+      responses:
+        '201': {description: Training berhasil}
+  /models/{id}/evaluation:
+    get:
+      summary: Evaluasi model
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        '200': {description: Hasil evaluasi}
+  /models/{id}/rules:
+    get:
+      summary: Rule IF-THEN C4.5
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        '200': {description: Daftar rule}
+  /predictions/single:
+    post:
+      summary: Single Record Test
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [model_id, jumlah_sesi, nilai_rata_rata]
+              properties:
+                model_id: {type: integer}
+                jumlah_sesi: {type: number}
+                nilai_rata_rata: {type: number}
+                kelas_actual: {type: string}
+      responses:
+        '200': {description: Hasil klasifikasi}
+  /predictions/csv:
+    post:
+      summary: Multi Record Test
+      responses:
+        '200': {description: Hasil klasifikasi CSV}

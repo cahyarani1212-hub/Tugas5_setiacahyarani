@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decision Tree Student Classification</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-icon">DT</div><div><strong>StudentClass</strong><small>Decision Tree System</small></div></div>
+    <div class="nav-label">MENU UTAMA</div>
+    <button class="nav-item active" data-view="dashboard"><span>⌂</span> Dashboard</button>
+    <button class="nav-item" data-view="dataset"><span>▤</span> Dataset</button>
+    <button class="nav-item" data-view="training"><span>◈</span> Training Model</button>
+    <button class="nav-item" data-view="prediction"><span>◎</span> Prediksi</button>
+    <div class="sidebar-bottom"><div class="api-dot"></div><div><strong>Backend API</strong><small id="side-status">Memeriksa koneksi...</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div><div class="eyebrow">MACHINE LEARNING PROTOTYPE</div><h1 id="page-title">Dashboard</h1></div><div class="status-pill"><span class="status-dot" id="status-dot"></span><span id="status-text">Memeriksa API</span></div></header>
+
+    <section class="view active" id="view-dashboard">
+      <div class="hero"><div class="hero-copy"><span class="hero-tag">PROTOTYPE • DECISION TREE</span><h2>Klasifikasi peserta didik<br>berbasis data</h2><p>Kelola dataset, latih model machine learning, dan lihat hasil prediksi melalui satu aplikasi.</p><button class="primary-btn" data-go="prediction">Mulai Prediksi <span>→</span></button></div><div class="hero-graphic"><div class="node n1">Data</div><div class="node n2">Decision<br>Tree</div><div class="node n3">Kelas</div><div class="connector c1"></div><div class="connector c2"></div><div class="graphic-caption">DATA → MODEL → PREDIKSI</div></div></div>
+      <div class="section-heading"><div><h3>Ringkasan sistem</h3><p>Status komponen prototype saat ini</p></div><button class="light-btn" id="refresh-btn">↻ Perbarui</button></div>
+      <div class="stats-grid">
+        <article class="stat-card"><div class="stat-icon blue">▤</div><span class="stat-label">Baris Dataset</span><strong id="dataset-count">—</strong><small>Data yang termuat di backend</small></article>
+        <article class="stat-card"><div class="stat-icon violet">◈</div><span class="stat-label">Model</span><strong id="model-status">Belum diketahui</strong><small id="model-caption">Latih model untuk memulai</small></article>
+        <article class="stat-card"><div class="stat-icon green">✓</div><span class="stat-label">Accuracy</span><strong id="accuracy-value">—</strong><small>Nilai dari evaluasi backend</small></article>
+      </div>
+      <div class="info-panel"><div class="info-symbol">i</div><div><strong>Tentang prototype</strong><p>Aplikasi ini merupakan demonstrasi klasifikasi menggunakan Decision Tree. Dataset demo bersifat sintetis dan hasilnya tidak ditujukan sebagai penilaian resmi peserta didik.</p></div></div>
+    </section>
+
+    <section class="view" id="view-dataset">
+      <div class="section-heading"><div><h3>Manajemen Dataset</h3><p>Unggah file CSV untuk digunakan pada proses training.</p></div></div>
+      <div class="panel upload-panel"><div class="panel-title"><div><h3>Unggah dataset CSV</h3><p>Kolom wajib: JUMLAH_SESI, NILAI_RATA-RATA, KELAS</p></div><div class="file-icon">↑</div></div>
+        <label class="dropzone" for="csv-file"><div class="upload-symbol">↑</div><strong>Pilih file CSV dari komputer</strong><span id="file-name">Format yang didukung: .csv</span><span class="choose-file">Pilih File</span></label>
+        <input id="csv-file" type="file" accept=".csv,text/csv" hidden>
+        <div class="actions"><button class="primary-btn" id="upload-btn">Unggah Dataset</button><span id="upload-message" class="message" aria-live="polite"></span></div>
+      </div>
+      <div class="panel"><div class="panel-title"><div><h3>Pratinjau dataset</h3><p>Data yang saat ini tersedia pada backend</p></div><span class="count-chip" id="table-count">0 baris</span></div>
+        <div class="table-wrap"><table><thead><tr><th>JUMLAH_SESI</th><th>NILAI RATA-RATA</th><th>KELAS</th></tr></thead><tbody id="dataset-table"><tr><td colspan="3" class="empty-cell">Belum ada data. Unggah dataset CSV terlebih dahulu.</td></tr></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-training">
+      <div class="section-heading"><div><h3>Training & Evaluasi Model</h3><p>Latih model Decision Tree menggunakan dataset yang telah dimuat.</p></div></div>
+      <div class="panel training-panel"><div class="training-art"><div class="tree-root">Decision<br>Tree</div><div class="tree-lines"></div><div class="tree-leaves"><span>Kelas A</span><span>Kelas B</span><span>Kelas C/D</span></div></div><div class="training-copy"><span class="hero-tag dark-tag">MODEL MACHINE LEARNING</span><h2>Latih model klasifikasi</h2><p>Backend membagi data menjadi data latih dan data uji, melatih model, lalu menghitung accuracy pada data uji.</p><div class="method-row"><span>Algoritma</span><strong>DecisionTreeClassifier</strong></div><div class="method-row"><span>Fitur</span><strong>Jumlah sesi, nilai rata-rata</strong></div><div class="method-row"><span>Evaluasi</span><strong>Accuracy</strong></div><button class="primary-btn" id="train-btn">▶ Jalankan Training</button><div id="train-message" class="message" aria-live="polite"></div></div></div>
+      <div class="stats-grid result-grid"><article class="stat-card"><span class="stat-label">Accuracy</span><strong id="train-accuracy">—</strong><small>Hasil aktual dari API</small></article><article class="stat-card"><span class="stat-label">Data Uji</span><strong id="test-rows">—</strong><small>Jumlah baris pengujian</small></article><article class="stat-card"><span class="stat-label">Status Model</span><strong id="train-state">Belum dilatih</strong><small id="train-features">Fitur: —</small></article></div>
+    </section>
+
+    <section class="view" id="view-prediction">
+      <div class="section-heading"><div><h3>Prediksi Kelas Peserta Didik</h3><p>Masukkan nilai fitur untuk meminta prediksi dari model terlatih.</p></div></div>
+      <div class="prediction-layout"><div class="panel"><div class="panel-title"><div><h3>Input prediksi</h3><p>Isi kedua data berikut</p></div><div class="file-icon">⌁</div></div>
+        <form id="prediction-form"><label for="jumlah-sesi">Jumlah sesi</label><input id="jumlah-sesi" type="number" min="0" step="any" placeholder="Contoh: 30" required><small class="field-help">Masukkan angka 0 atau lebih.</small>
+        <label for="nilai-rata">Nilai rata-rata</label><input id="nilai-rata" type="number" min="0" max="100" step="any" placeholder="Contoh: 80" required><small class="field-help">Rentang nilai 0–100.</small>
+        <button class="primary-btn full-btn" id="predict-btn" type="submit">Jalankan Prediksi <span>→</span></button><div id="prediction-message" class="message" aria-live="polite"></div></form>
+      </div><div class="panel output-panel"><div class="panel-title"><div><h3>Hasil prediksi</h3><p>Output dari model machine learning</p></div></div><div id="prediction-empty" class="result-empty"><div class="result-symbol">◎</div><strong>Belum ada hasil</strong><p>Isi form dan jalankan prediksi untuk melihat kelas hasil model.</p></div><div id="prediction-result" class="result-content" hidden><span class="result-label">KELAS PREDIKSI</span><div class="predicted-class" id="predicted-class">—</div><p>Hasil dikembalikan oleh backend Decision Tree berdasarkan input yang diberikan.</p><div class="result-inputs" id="result-inputs"></div></div></div></div>
+      <div class="info-panel"><div class="info-symbol">i</div><div><strong>Catatan penggunaan</strong><p>Pastikan dataset telah diunggah dan model berhasil dilatih terlebih dahulu. Hasil dari dataset sintetis hanya untuk demonstrasi.</p></div></div>
+    </section>
+    <footer>Decision Tree Student Classification <span>Prototype akademik • FastAPI + scikit-learn</span></footer>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
